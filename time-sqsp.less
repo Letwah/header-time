@@ -19,3 +19,16 @@ a.btn.cs-studio-time-btn:hover {
   opacity: 1;
   transition: all 0.5s ease-in-out;
 }
+
+//important do not remove
+@media screen and (max-width: 767px) {
+  .header-menu-cta a.btn.cs-studio-time-btn {
+    display: none !important;
+  }
+
+  //this can be uncommented if you dont want any CTA on mobile; just remove /* and */
+
+  /*.header-menu-cta {
+    display:none!important;
+  }*/
+}
