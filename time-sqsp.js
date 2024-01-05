@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       // Add more buttons as needed
     ],
-    position: "before", // or "after"
+    position: "before",
   };
 
   const createButton = (buttonData) => {
@@ -31,34 +31,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const updateButtonTime = (button) => {
     const updateTime = () => {
       const now = new Date();
-      button.textContent = now.toLocaleTimeString(); // Format time as desired
+      const timeText = now.toLocaleTimeString();
+      button.textContent = timeText;
     };
 
     updateTime();
     setInterval(updateTime, csCustomTimeBtn.buttons[0].updateTimeInterval);
   };
 
-  const headerActionButton = document.querySelector(
-    ".header-actions-action .btn"
-  );
-  const headerMenuButton = document.querySelector(".header-menu-cta .btn");
+  // Only show if we on anything other than mobile
+  if (!/Mobi|Android/i.test(navigator.userAgent)) {
+    const headerActionButton = document.querySelector(
+      ".header-actions-action .btn"
+    );
 
-  csCustomTimeBtn.buttons.forEach((buttonData, index) => {
-    const customButton = createButton(buttonData);
-    if (index === 0) {
-      updateButtonTime(customButton);
-    }
+    csCustomTimeBtn.buttons.forEach((buttonData, index) => {
+      const customButton = createButton(buttonData);
+      if (index === 0) {
+        updateButtonTime(customButton);
+      }
 
-    const mobileButton = buttonData.displayOnMobile
-      ? createButton(buttonData)
-      : null;
-
-    if (csCustomTimeBtn.position === "before") {
-      headerActionButton.before(customButton);
-      if (mobileButton) headerMenuButton.before(mobileButton);
-    } else {
-      headerActionButton.after(customButton);
-      if (mobileButton) headerMenuButton.after(mobileButton);
-    }
-  });
+      if (csCustomTimeBtn.position === "before" && headerActionButton) {
+        headerActionButton.before(customButton);
+      } else if (headerActionButton) {
+        headerActionButton.after(customButton);
+      }
+    });
+  }
 });
